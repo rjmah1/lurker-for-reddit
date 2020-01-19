@@ -18,7 +18,8 @@ const Toolbar = props => {
           <input
             type="checkbox"
             checked={toggleNSFW}
-            onChange={event => setToggleNSFW(!toggleNSFW)}
+            // onChange={event => setToggleNSFW(!toggleNSFW)}
+            onChange={props.toggleNSFW}
           />
           <span className={classes.Slider}></span>
         </label>
@@ -29,7 +30,8 @@ const Toolbar = props => {
           <input
             type="checkbox"
             checked={toggleSpoiler}
-            onChange={event => setToggleSpoiler(!toggleSpoiler)}
+            // onChange={event => setToggleSpoiler(!toggleSpoiler)}
+            onChange={props.toggleSpoiler}
           />
           <span className={classes.Slider}></span>
         </label>

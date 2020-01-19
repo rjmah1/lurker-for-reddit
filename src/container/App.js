@@ -14,6 +14,7 @@ class App extends Component {
 
   state = {
     showNSFW: false,
+    showSpoiler: false,
     lastPostID: "",
     posts: [],
     blacklist: []
@@ -38,12 +39,14 @@ class App extends Component {
     let lastTitle = "";
 
     for (var i = 0; i < unfilteredPosts.length; i++) {
-      filteredPosts.push({
-        // if (unfilteredPosts[i].data.over_18 && !this.state.showNSFW ) ||
-        //     (this.state.blacklist.includes(unfilteredPosts[i].data.subreddit_name_prefixed)){
-        //     continue;
-        // }
 
+    if ((unfilteredPosts[i].data.over_18 && !this.state.showNSFW ) ||
+        (this.state.blacklist.includes(unfilteredPosts[i].data.subreddit_name_prefixed)) ||
+        (unfilteredPosts[i].data.spoiler && !this.state.showSpoiler)){
+        continue;
+    }
+      filteredPosts.push({
+           
         id: unfilteredPosts[i].data.name,
         selftext: unfilteredPosts[i].data.selftext,
         subreddit: unfilteredPosts[i].data.subreddit_name_prefixed,
@@ -91,8 +94,16 @@ class App extends Component {
   toggleNSFWHandler = () => {
     let showNSFW = this.state.showNSFW;
     console.log(showNSFW ? "SHOWING NSFW" : "NOT SHOWING NSFW");
+
+
     this.setState({ showNSFW: !showNSFW });
   };
+
+  toggleSpoilerHandler = () => {
+      let showSpoiler = this.state.showSpoiler;
+      console.log(showSpoiler? "SHOWING SPOILER" : "NOT SHOWING SPOILER");
+      this.setState({showSpoiler: !showSpoiler});
+  }
 
   render() {
     return (
@@ -100,7 +111,7 @@ class App extends Component {
         <div className={classes.Title}>
           <h1>Lurker for Reddit</h1>
         </div>
-        <Toolbar toggleNSFW={this.toggleNSFWHandler} />
+        <Toolbar toggleNSFW={this.toggleNSFWHandler} toggleSpoiler={this.toggleSpoilerHandler}/>
         <div className={classes.Body}>
           <Posts posts={this.state.posts} />
         </div>
